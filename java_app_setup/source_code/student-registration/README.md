@@ -15,8 +15,8 @@ Runs in Docker: Tomcat + MySQL containers.
 ## DB credentials (default)
 - Host: mysql-db
 - DB: studentdb
-- User: appuser
-- Password: apppassword
+- User: student
+- Password: secret_password
 
 ## Notes
 - Change creds for production.
