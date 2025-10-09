@@ -55,12 +55,7 @@
       <version>5.5.0</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-inline</artifactId>
-      <version>5.5.0</version>
-      <scope>test</scope>
-    </dependency>
+    <!-- mockito-inline removed because not available in current mirror; tests use injected mocks instead -->
   </dependencies>
 
   <build>
@@ -93,4 +88,34 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Distribution management for deployment to Nexus -->
+  <distributionManagement>
+    <repository>
+      <id>nexus-server</id>
+      <name>Nexus Releases</name>
+      <url>http://192.168.0.102:9000/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-server</id>
+      <name>Nexus Snapshots</name>
+      <url>http://192.168.0.102:9000/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <!-- Optional: explicit deploy plugin configuration -->
+  <profiles>
+    <profile>
+      <id>deploy</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>3.1.0</version>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

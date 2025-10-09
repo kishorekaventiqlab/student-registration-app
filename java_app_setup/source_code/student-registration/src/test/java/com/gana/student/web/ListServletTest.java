@@ -34,19 +34,15 @@ public class ListServletTest {
         s2.setName("B");
         List<Student> fakeList = Arrays.asList(s1, s2);
 
-        // Mock construction of StudentDao to return fake list
-        try (MockedConstruction<StudentDao> mocked = Mockito.mockConstruction(StudentDao.class,
-                (mock, context) -> when(mock.listAll()).thenReturn(fakeList))) {
+        // Inject a mock StudentDao that returns the fake list
+        StudentDao mockDao = mock(StudentDao.class);
+        when(mockDao.listAll()).thenReturn(fakeList);
+        servlet.setStudentDao(mockDao);
 
-            servlet.doGet(req, resp);
+        servlet.doGet(req, resp);
 
-            // verify StudentDao was constructed
-            assertEquals(1, mocked.constructed().size());
-            StudentDao constructed = mocked.constructed().get(0);
-            verify(constructed).listAll();
-
-            verify(req).setAttribute("students", fakeList);
-            verify(rd).forward(req, resp);
-        }
+        verify(mockDao).listAll();
+        verify(req).setAttribute("students", fakeList);
+        verify(rd).forward(req, resp);
     }
 }

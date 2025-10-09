@@ -13,6 +13,14 @@ import java.io.IOException;
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
 
+    // allow injection for tests
+    private com.gana.student.dao.StudentDao studentDao = new com.gana.student.dao.StudentDao();
+
+    // package-private setter for tests
+    void setStudentDao(com.gana.student.dao.StudentDao dao) {
+        this.studentDao = dao;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
@@ -42,7 +50,7 @@ public class RegistrationServlet extends HttpServlet {
             s.setName(name);
             s.setEmail(email);
             s.setCourse(course);
-            new StudentDao().insertStudent(s);
+            studentDao.insertStudent(s);
             resp.sendRedirect(req.getContextPath() + "/list");
         } catch (Exception e) {
             throw new ServletException(e);

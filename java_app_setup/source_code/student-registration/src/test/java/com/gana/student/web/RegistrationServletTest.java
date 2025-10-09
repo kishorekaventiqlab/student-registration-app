@@ -62,20 +62,14 @@ public class RegistrationServletTest {
         when(req.getParameter("course")).thenReturn("Chemistry");
         when(req.getContextPath()).thenReturn("");
 
-        // Mock construction of StudentDao so we can verify insertStudent called
-        try (MockedConstruction<StudentDao> mocked = Mockito.mockConstruction(StudentDao.class,
-                (mock, context) -> {
-                    doNothing().when(mock).insertStudent(any(Student.class));
-                })) {
+        // Inject a mock StudentDao and verify insertStudent called
+        StudentDao mockDao = mock(StudentDao.class);
+        doNothing().when(mockDao).insertStudent(any(Student.class));
+        servlet.setStudentDao(mockDao);
 
-            servlet.doPost(req, resp);
+        servlet.doPost(req, resp);
 
-            // ensure insertStudent was called on the constructed StudentDao
-            assertEquals(1, mocked.constructed().size());
-            StudentDao constructed = mocked.constructed().get(0);
-            verify(constructed).insertStudent(any(Student.class));
-
-            verify(resp).sendRedirect("/list");
-        }
+        verify(mockDao).insertStudent(any(Student.class));
+        verify(resp).sendRedirect("/list");
     }
 }
