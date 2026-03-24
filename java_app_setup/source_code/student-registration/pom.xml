@@ -94,12 +94,12 @@
     <repository>
       <id>nexus-server</id>
       <name>Nexus Releases</name>
-      <url>http://192.168.0.102:8081/repository/maven-releases/</url>
+      <url>http://ec2-13-203-205-195.ap-south-1.compute.amazonaws.com:8081/repository/maven-releases/</url>
     </repository>
     <snapshotRepository>
       <id>nexus-server</id>
       <name>Nexus Snapshots</name>
-      <url>http://192.168.0.102:8081/repository/maven-snapshots/</url>
+      <url>http://ec2-13-203-205-195.ap-south-1.compute.amazonaws.com:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 
